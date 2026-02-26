@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travel App</title>
+  <style>
+    body {
+      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+      background-color: #f3f4f6;
+      background-image:url('https://cdn.magicdecor.in/com/2024/06/07161329/Window-to-the-World-Travel-Wallpaper-Mural.jpg');
+      
+      background-size: cover;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      color: rgb(10, 51, 127);
+      font-weight: bold;
+      padding: 1rem;
+      display:flex;
+      justify-content:space-between;
+    }
+
+    .navbar button {
+      background: none;
+      border: none;
+      color: rgb(45, 106, 204);
+      font-size: 1rem;
+      margin-left: 1rem;
+      cursor:pointer;
+    }
+
+    main {
+      padding: 4rem;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display:contents;
+    }
+
+    .content{
+      text-align: center;
+      color: rgb(5, 85, 142);
+      padding: 2rem;
+
+    }
+
+    .content button {
+      padding: 0.5rem 1.5rem; 
+      background: rgb(135, 147, 148);
+      color: rgb(5, 85, 142);
+      border: none;
+      border-radius: 200px; 
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+
+    .trip-card {
+      background: white;
+      padding: 1rem;
+      font-size:small;
+      border-radius: 20px;
+      box-shadow: 0 0 5px rgba(160, 217, 17, 0.1);
+      margin-bottom: 5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem ;
+      border: 2px solid #060606;
+      border-radius: 10px;
+    }
+
+    button.submit-btn {
+      padding: 0.6rem 1.2rem;
+      background-color: #2a51a4;
+      color: rgb(244, 241, 241);
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.875rem;
+      display: none;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+ <nav class="navbar">
+  <h1>Travel App</h1>
+  <div>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('dashboard')">Dashboard</button>
+    <button onclick="showPage('create')">Plan Trip</button>
+    <button onclick="showPage('login')">Login</button>
+    <button onclick="showPage('register')">Register</button>
+  </div>
+</nav>
+
+  <main>
+    <section id="home" class="page active">
+      <div class="content">
+        <h2>Plan Your Next Adventure</h2>
+        <p>Organize trips and relive your memories.</p>
+        <button onclick="showPage('create')">Start Planning</button>
+      </div>
+    </section>
+<center>
+ 
+    <section id="dashboard" class="page">
+      <h2 class="section-title">My Trips</h2>
+      <div class="trip-card" style="width:250px">
+        <h3>Baku, Azerbaijan</h3>
+        <a href="#">View Trip</a>
+      </div>
+      <div class="trip-card" style="width:250px">
+        <h3>Tokyo, Japan</h3>
+        <a href="#">View Trip</a>
+      </div>
+    </section>
+    </center>
+<center>
+    <section id="create" class="page">
+      <h2 class="section-title">Plan a New Trip</h2>
+      <form>
+        <div class="form-group" style="width:250px">
+          <input type="text" placeholder="Destination" />
+        </div>
+        <p style="border: 2px;"><b>START DATE OF THE TRIP</b></p>
+        <div class="form-group" style="width:250px">
+          <input type="date" placeholder="Start Date"/>
+        </div>
+        <P style="border: 2px;"><b>END DATE OF THE TRIP</b></P>
+        <div class="form-group" style="width:250px">
+          <input type="date" placeholder="End Date" />
+        </div>
+        <div class="form-group" style="width:250px">
+          <textarea placeholder="Trip Notes" rows="4"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Save Trip</button>
+      </form>
+    </section>
+    </center>
+      <center>
+    <section id="register" class="page">
+
+    <h2 class="section-title">Create an Account</h2>
+    <form id="registerForm">
+      <div class="form-group" style="width:250px">
+        <input type="text" id="regName" placeholder="Full Name" />
+        <p id="nameError" class="error-message">Name is required.</p>
+      </div>
+      <div class="form-group" style="width:250px">
+        <input type="email" id="regEmail" placeholder="Email" />
+        <p id="regEmailError" class="error-message">Enter a valid email address.</p>
+      </div>
+      <div class="form-group" style="width:250px">
+        <input type="password" id="regPassword" placeholder="Password" />
+        <p id="regPasswordError" class="error-message">Min 6 chars, 1 letter, 1 number.</p>
+      </div>
+      <div class="form-group" style="width:250px">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" />
+        <p id="confirmPasswordError" class="error-message">Passwords do not match.</p>
+      </div>
+      <button type="submit" class="submit-btn">Register</button>
+    </form>
+  </center>
+</section>
+
+<center>    <section id="login" class="page">
+      <h2 class="section-title">Login to Travel App</h2>
+      <form id="loginForm">
+        <div class="form-group" style="width:250px">
+          <input type="email" id="email" placeholder="Email" />
+          <p id="emailError" class="error-message">Please enter a valid email address.</p>
+        </div>
+        <div class="form-group" style="width:250px">
+          <input type="password" id="password" placeholder="Password" />
+          <p id="passwordError" class="error-message">
+            Password must be at least 6 characters, including a number and a letter.
+          </p>
+        </div>
+        <button type="submit" class="submit-btn">Login</button>
+      </form>
+    </section></center>
+  </main>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const nameInput = document.getElementById("regName");
+  const emailInput = document.getElementById("regEmail");
+  const passwordInput = document.getElementById("regPassword");
+  const confirmPasswordInput = document.getElementById("confirmPassword");
+  const nameError = document.getElementById("nameError");
+  const emailError = document.getElementById("regEmailError");
+  const passwordError = document.getElementById("regPasswordError");
+  const confirmPasswordError = document.getElementById("confirmPasswordError");''
+  let isValid = true;
+  if (nameInput.value.trim() === "") {
+    nameError.style.display = "block";
+    isValid = false;
+  } else {
+    nameError.style.display = "none";
+  }
+
+
+  if (!emailRegex.test(emailInput.value)) {
+    emailError.style.display = "block";
+    isValid = false;
+  } else {
+    emailError.style.display = "none";
+  }
+
+
+  if (!passwordRegex.test(passwordInput.value)) {
+    passwordError.style.display = "block";
+    isValid = false;
+  } else {
+    passwordError.style.display = "none";
+  }
+
+
+  if (passwordInput.value !== confirmPasswordInput.value) {
+    confirmPasswordError.style.display = "block";
+    isValid = false;
+  } else {
+    confirmPasswordError.style.display = "none";
+  }
+
+  if (isValid) {
+    alert("✅ Registration successful!");
+    document.getElementById("registerForm").reset();
+    showPage('login');
+  }
+});
+  </script>
+  <script>
+    function showPage(pageId) {
+      const pages = document.querySelectorAll(".page");
+      pages.forEach(page => page.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+    }
+    showPage("home");
+    const emailRegex = /^[^\s@]+[a-zA-Z0-9]+@[^\s@0-9]+[a-zA-Z]+\.[^\s@]+[a-z]{3}+$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/; 
+ 
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const emailError = document.getElementById("emailError");
+      const passwordError = document.getElementById("passwordError");
+
+      let isValid = true;
+
+      if (!emailRegex.test(emailInput.value)) {
+        emailError.style.display = "block";
+        isValid = false;
+      } else {
+        emailError.style.display = "none";
+      }
+
+      if (!passwordRegex.test(passwordInput.value)) {
+        passwordError.style.display = "block";
+        isValid = false;
+      } else {
+        passwordError.style.display = "none";
+      }
+      if (isValid) {
+        alert("✅ Login successful (validation passed)");
+      }
+    });
+  </script>
+</body>
+</html> 

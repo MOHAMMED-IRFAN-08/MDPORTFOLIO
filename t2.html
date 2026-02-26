@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travel App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #4a4a93 0%, #4f0297 50%, #56569e 100%);
+      background-attachment: fixed;
+      color: #e0e0e0;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(192, 156, 227, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(30, 144, 255, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .navbar {
+      background: rgba(15, 15, 30, 0.7);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .navbar div {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .navbar button {
+      background: rgba(138, 43, 226, 0.1);
+      border: 1px solid rgba(138, 43, 226, 0.3);
+      color: #fff;
+      font-size: 0.9rem;
+      padding: 0.6rem 1.3rem;
+      cursor: pointer;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-transform: capitalize;
+      letter-spacing: 0.5px;
+    }
+
+    .navbar button:hover {
+      background: rgba(138, 43, 226, 0.25);
+      border-color: rgba(138, 43, 226, 0.6);
+      box-shadow: 0 8px 24px rgba(138, 43, 226, 0.2);
+      transform: translateY(-2px);
+    }
+
+    main {
+      padding: 3rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: contents;
+    }
+
+    section {
+      margin: 2rem auto;
+    }
+
+    .section-box {
+      background: rgba(20, 20, 40, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(138, 43, 226, 0.15);
+      border-radius: 24px;
+      padding: 3.5rem 3rem;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: fadeInUp 0.8s ease-out;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+
+    .content {
+      text-align: center;
+      padding: 2rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content h2 {
+      font-size: 3rem;
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a855f7 0%, #3b82f6 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
+    }
+
+    .content p {
+      font-size: 1.1rem;
+      color: #a0a0b8;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+      letter-spacing: 0.3px;
+    }
+
+    .content button, .submit-btn, .section-box button {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.3);
+      margin: 0.6rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .content button:hover, .submit-btn:hover, .section-box button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(168, 85, 247, 0.5);
+      background: linear-gradient(135deg, #c084fc 0%, #60a5fa 100%);
+    }
+
+    .content button:active, .submit-btn:active {
+      transform: translateY(-2px);
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      margin-bottom: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
+    }
+
+    .trip-card {
+      background: rgba(30, 30, 60, 0.5);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 16px;
+      margin-bottom: 1.8rem;
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      color: #e0e0e0;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trip-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #a855f7, #3b82f6, #06b6d4);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .trip-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 16px 48px rgba(168, 85, 247, 0.2);
+      background: rgba(40, 35, 75, 0.6);
+    }
+
+    .trip-card:hover::before {
+      opacity: 1;
+    }
+
+    .trip-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      color: #a855f7;
+    }
+
+    .trip-card p {
+      margin: 0.7rem 0;
+      font-size: 0.95rem;
+      color: #a0a0b8;
+      line-height: 1.6;
+    }
+
+    .trip-card a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      display: inline-block;
+      padding: 0.6rem 1.5rem;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .trip-card a:hover {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: rgba(59, 130, 246, 0.6);
+      transform: translateX(4px);
+    }
+
+    .form-group {
+      margin-bottom: 1.8rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(138, 43, 226, 0.2);
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.05);
+      color: #e0e0e0;
+      letter-spacing: 0.3px;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #6b7280;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: rgba(168, 85, 247, 0.6);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
+    }
+
+    button.submit-btn {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      width: auto;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    button.submit-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(168, 85, 247, 0.5);
+      background: linear-gradient(135deg, #c084fc 0%, #60a5fa 100%);
+    }
+
+    .error-message {
+      color: #ff7f7f;
+      font-size: 0.85rem;
+      display: none;
+      margin-top: 0.5rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .message-container {
+      position: fixed;
+      top: 120px;
+      right: 24px;
+      z-index: 1000;
+      max-width: 480px;
+    }
+
+    .message {
+      padding: 1.3rem 1.8rem;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      animation: slideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-weight: 600;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+      border-left: 4px solid;
+      letter-spacing: 0.3px;
+    }
+
+    .message.success {
+      background: rgba(34, 197, 94, 0.15);
+      color: #86efac;
+      border-left-color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .message.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border-left-color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(500px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    hr {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.3), transparent);
+      margin: 2.5rem 0;
+    }
+
+    center {
+      width: 100%;
+    }
+
+    p {
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+ <nav class="navbar">
+  <h1>Travel App</h1>
+  <div>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('dashboard')">Dashboard</button>
+    <button onclick="showPage('create')">Plan Trip</button>
+    <button onclick="showPage('register')">Login/Register</button>
+  </div>
+</nav>
+
+<div id="messageContainer" class="message-container"></div>
+
+  <main>
+    <section id="home" class="page active">
+      <div class="section-box">
+        <div class="content">
+          <div id="welcomeSection" style="display:none;">
+            <h2>Welcome, <span id="userName"></span>!</h2>
+            <p>Great to see you again. Ready to plan your next adventure?</p>
+            <button onclick="showPage('dashboard')">View My Trips</button>
+            <button onclick="showPage('create')">Plan a New Trip</button>
+          </div>
+          <div id="guestSection">
+            <h2>Plan Your Next Adventure</h2>
+            <p>Organize trips and relive your memories.</p>
+            <button onclick="showPage('register')">Login / Register</button>
+          </div>
+        </div>
+      </div>
+    </section>
+<center>
+ 
+    <section id="dashboard" class="page">
+      <div class="section-box">
+        <h2 class="section-title">My Trips</h2>
+        <div id="tripsContainer"></div>
+      </div>
+    </section>
+    </center>
+<center>
+    <section id="create" class="page">
+      <div class="section-box">
+        <h2 class="section-title">Plan a New Trip</h2>
+        <form id="createTripForm">
+        <div class="form-group" style="width:250px">
+          <input type="text" id="destination" placeholder="Destination" />
+        </div>
+        <p style="border: 2px;"><b>START DATE OF THE TRIP</b></p>
+        <div class="form-group" style="width:250px">
+          <input type="date" id="startDate" placeholder="Start Date"/>
+        </div>
+        <P style="border: 2px;"><b>END DATE OF THE TRIP</b></P>
+        <div class="form-group" style="width:250px">
+          <input type="date" id="endDate" placeholder="End Date" />
+        </div>
+        <div class="form-group" style="width:250px">
+          <textarea id="tripNotes" placeholder="Trip Notes" rows="4"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Save Trip</button>
+        </form>
+      </div>
+    </section>
+    </center>
+    <section id="register" class="page">
+      <div class="section-box">
+        <center>
+          <h2 class="section-title">Create an Account</h2>
+          <form id="registerForm">
+      <div class="form-group" style="width:250px">
+        <input type="text" id="regName" placeholder="Full Name" />
+        <p id="nameError" class="error-message">Name is required.</p>
+      </div>
+      <div class="form-group" style="width:250px">
+        <input type="email" id="regEmail" placeholder="Email" />
+        <p id="regEmailError" class="error-message">Enter a valid email address.</p>
+      </div>
+      <div class="form-group" style="width:250px">
+        <input type="password" id="regPassword" placeholder="Password" />
+        <p id="regPasswordError" class="error-message">Min 6 chars, 1 letter, 1 number.</p>
+      </div>
+      <div class="form-group" style="width:250px">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" />
+        <p id="confirmPasswordError" class="error-message">Passwords do not match.</p>
+      </div>
+          <button type="submit" class="submit-btn">Register</button>
+          </form>
+          
+          <hr style="margin: 2rem 0; width: 250px; border: 1px solid #ccc;">
+          
+          <h2 class="section-title">Login to Travel App</h2>
+          <form id="loginForm">
+      <div class="form-group" style="width:250px">
+        <input type="email" id="email" placeholder="Email" />
+        <p id="emailError" class="error-message">Please enter a valid email address.</p>
+      </div>
+      <div class="form-group" style="width:250px">
+        <input type="password" id="password" placeholder="Password" />
+        <p id="passwordError" class="error-message">
+          Password must be at least 6 characters, including a number and a letter.
+        </p>
+      </div>
+          <button type="submit" class="submit-btn">Login</button>
+          </form>
+        </center>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function showMessage(message, type = 'success') {
+      const container = document.getElementById('messageContainer');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${type}`;
+      messageDiv.textContent = message;
+      container.appendChild(messageDiv);
+
+      setTimeout(() => {
+        messageDiv.style.animation = 'slideOut 0.3s ease-in-out';
+        setTimeout(() => messageDiv.remove(), 300);
+      }, 4000);
+    }
+
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const nameInput = document.getElementById("regName");
+  const emailInput = document.getElementById("regEmail");
+  const passwordInput = document.getElementById("regPassword");
+  const confirmPasswordInput = document.getElementById("confirmPassword");
+
+  const nameError = document.getElementById("nameError");
+  const emailError = document.getElementById("regEmailError");
+  const passwordError = document.getElementById("regPasswordError");
+  const confirmPasswordError = document.getElementById("confirmPasswordError");
+
+  let isValid = true;
+  if (nameInput.value.trim() === "") {
+    nameError.style.display = "block";
+    isValid = false;
+  } else {
+    nameError.style.display = "none";
+  }
+  if (!emailRegex.test(emailInput.value)) {
+    emailError.style.display = "block";
+    isValid = false;
+  } else {
+    emailError.style.display = "none";
+  }
+
+  // Password validation
+  if (!passwordRegex.test(passwordInput.value)) {
+    passwordError.style.display = "block";
+    isValid = false;
+  } else {
+    passwordError.style.display = "none";
+  }
+
+  // Confirm password validation
+  if (passwordInput.value !== confirmPasswordInput.value) {
+    confirmPasswordError.style.display = "block";
+    isValid = false;
+  } else {
+    confirmPasswordError.style.display = "none";
+  }
+
+  if (isValid) {
+    // Store user data in localStorage
+    const userData = {
+      name: nameInput.value,
+      email: emailInput.value,
+      password: passwordInput.value
+    };
+    
+    // Check if email already registered
+    const existingUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+    const emailExists = existingUsers.some(user => user.email === userData.email);
+    
+    if (emailExists) {
+      showMessage("❌ This email is already registered!", "error");
+    } else {
+      existingUsers.push(userData);
+      localStorage.setItem("registeredUsers", JSON.stringify(existingUsers));
+      showMessage("✅ Registration successful! You can now login with your credentials.", "success");
+      document.getElementById("registerForm").reset();
+    }
+  }
+});
+
+  </script>
+  <script>
+    let trips = [];
+
+    function showPage(pageId) {
+      const pages = document.querySelectorAll(".page");
+      pages.forEach(page => page.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+      if (pageId === "dashboard") {
+        displayTrips();
+      }
+    }
+
+    function displayTrips() {
+      const container = document.getElementById("tripsContainer");
+      container.innerHTML = "";
+      if (trips.length === 0) {
+        container.innerHTML = "<p>No trips yet. <button onclick=\"showPage('create')\">Plan one now!</button></p>";
+        
+      } else {
+        trips.forEach(trip => {
+          const card = document.createElement("div");
+          card.className = "trip-card";
+          card.style.width = "300px";
+          card.innerHTML = `<h3>${trip.destination}</h3><p><strong>From:</strong> ${trip.startDate}</p><p><strong>To:</strong> ${trip.endDate}</p><p>${trip.notes}</p><a href="#">View Trip</a>`;
+          container.appendChild(card);
+        });
+      }
+    }
+
+    let loggedInUser = null;
+
+    function updateHomePageDisplay() {
+      const welcomeSection = document.getElementById("welcomeSection");
+      const guestSection = document.getElementById("guestSection");
+      const userName = document.getElementById("userName");
+      
+      if (loggedInUser) {
+        welcomeSection.style.display = "block";
+        guestSection.style.display = "none";
+        userName.textContent = loggedInUser.name;
+      } else {
+        welcomeSection.style.display = "none";
+        guestSection.style.display = "block";
+      }
+    }
+
+    showPage("home");
+    updateHomePageDisplay();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const emailError = document.getElementById("emailError");
+      const passwordError = document.getElementById("passwordError");
+
+      let isValid = true;
+
+      if (!emailRegex.test(emailInput.value)) {
+        emailError.style.display = "block";
+        isValid = false;
+      } else {
+        emailError.style.display = "none";
+      }
+
+      if (!passwordRegex.test(passwordInput.value)) {
+        passwordError.style.display = "block";
+        isValid = false;
+      } else {
+        passwordError.style.display = "none";
+      }
+
+      if (isValid) {
+        // Check credentials against registered users
+        const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+        const user = registeredUsers.find(u => u.email === emailInput.value && u.password === passwordInput.value);
+        
+        if (user) {
+          loggedInUser = user;
+          showMessage(`✅ Login successful! Welcome ${user.name}!`, "success"); 
+          document.getElementById("loginForm").reset();
+          updateHomePageDisplay();
+          showPage('home');
+        } else {
+          showMessage("❌ Invalid email or password. Please register first or check your credentials.", "error");
+        }
+      }
+    });
+
+    document.getElementById("createTripForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const destination = document.getElementById("destination").value.trim();
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+      const tripNotes = document.getElementById("tripNotes").value.trim();
+
+      let isValid = true;
+
+      if (destination === "") {
+        showMessage("Please enter a destination.", "error");
+        isValid = false;
+      }
+      if (startDate === "") {
+        showMessage("Please select a start date.", "error");
+        isValid = false;
+      }
+      if (endDate === "") {
+        showMessage("Please select an end date.", "error");
+        isValid = false;
+      }
+      if (new Date(startDate) >= new Date(endDate)) {
+        showMessage("End date must be after start date.", "error");
+        isValid = false;
+      }
+
+      if (isValid) {
+        trips.push({
+          destination: destination,
+          startDate: startDate,
+          endDate: endDate,
+          notes: tripNotes
+        });
+        showMessage("✅ Trip saved! Destination: " + destination, "success");
+        document.getElementById("createTripForm").reset();
+        showPage('dashboard');
+      }
+    });
+  </script>
+</body>
+</html>

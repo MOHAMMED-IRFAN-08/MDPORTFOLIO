@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travel Booking App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <nav class="bg-blue-600 text-white p-4 flex justify-between">
+    <h1 class="text-xl font-bold">✈️ Travel App</h1>
+    <div class="space-x-4">
+      <button onclick="showPage('home')">Home</button>
+      <button onclick="showPage('dashboard')">Dashboard</button>
+      <button onclick="showPage('create')">Plan-Trip</button>
+      <button onclick="showPage('login')">Login</button>
+    </div>
+  </nav>
+
+  <main class="p-6">
+
+    <section id="home" class="page">
+      <div class="text-center py-16 bg-gradient-to-r from-blue-500 to-blue-300 text-white rounded">
+        <h2 class="text-4xl font-bold mb-4">Plan Your Next Adventure</h2>
+        <p class="text-lg mb-4">Organize trips, track your itineraries, and relive your memories.</p>
+        <button onclick="showPage('create')" class="bg-white text-blue-600 px-6 py-2 rounded font-bold">Start Planning</button>
+      </div>
+    </section>
+
+    <section id="dashboard" class="page hidden">
+      <h2 class="text-2xl font-bold mb-4">My Trips</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white p-4 shadow rounded">
+          <h3 class="font-semibold text-lg">Bali, Indonesia</h3>
+          <a href="#" class="text-blue-600 text-sm">View Trip</a>
+        </div>
+        <div class="bg-white p-4 shadow rounded">
+          <h3 class="font-semibold text-lg">Tokyo, Japan</h3>
+          <a href="#" class="text-blue-600 text-sm">View Trip</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="create" class="page hidden">
+      <h2 class="text-2xl font-bold mb-4">Plan a New Trip</h2>
+      <form class="space-y-4 max-w-lg">
+        <input type="text" placeholder="Destination" class="w-full p-2 border rounded" />
+        <input type="date" placeholder="Start Date" class="w-full p-2 border rounded" />
+        <input type="date" placeholder="End Date" class="w-full p-2 border rounded" />
+        <textarea placeholder="Trip Notes" class="w-full p-2 border rounded h-24"></textarea>
+        <input type="file" accept="image/*" class="w-full" />
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save Trip</button>
+      </form>
+    </section>
+
+    <section id="login" class="page hidden">
+      <div class="bg-white p-6 rounded shadow max-w-sm mx-auto">
+        <h2 class="text-xl font-bold mb-4">Login to Travel App</h2>
+        <form class="space-y-4">
+          <input type="email" placeholder="Email" class="w-full p-2 border rounded" />
+          <input type="password" placeholder="Password" class="w-full p-2 border rounded" />
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Login</button>
+        </form>
+        <p class="mt-4 text-sm">Don't have an account? <a href="#" class="text-blue-600">Register</a></p>
+      </div>
+    </section>
+
+  </main>
+  <script>
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.add('hidden'));
+      document.getElementById(pageId).classList.remove('hidden');
+    }
+
+    showPage('home');
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body{
+                background-color: yellow;
+            }
+            nav{
+                padding: 10px;
+            }
+            button{
+    
+                cursor:crosshair;
+                background: rgb(177, 211, 222);
+                margin-left: 50%;
+                margin-top: 10%;
+                border: 2px solid blue;
+            }
+            img{
+                position:absolute;
+                top: 50%;
+                width: 150px;
+                animation:moveOutIn 10s linear infinite;
+            }
+            img:nth-child(2){
+                top: 20%;
+                animation-delay: 1.3s;
+            }
+            @keyframes
+            moveOutIn{
+              from{
+                left:10%;
+              }
+              to{
+                left:90%;
+              }
+            }
+            button:hover{
+                box-shadow: 4px 4px 4px 4px red;
+            }
+        </style>
+        
+    </head>
+    <body>      
+      <img src="C:\Users\Mohammed Irfan\OneDrive\图片\spiderman1.jpg">
+      <img src="C:\Users\Mohammed Irfan\OneDrive\图片\mercedesw15.jpg">
+        <nav style="border : 5px dotted orange;width:200px">
+            <a href="https://www.google.com" style="color: red;">Google</a>
+            <a href="https://www.facebook.com" style="color: blue;">Fsdfaacebook</a>
+            <a href="https://www.twitter.com" style="color: cyan;">Twitter</a>
+        </nav>
+          <button onclick="alert('Button Clicked!')">Click Me</button>
+    </body>
+</html>
